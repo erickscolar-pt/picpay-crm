@@ -13,19 +13,18 @@ type AuthContextData = {
 }
 
 type UsuarioProps ={
-    id: string;
-    email: string;
-    nivel?: number;
+    username: string;
+    nivel_usu?: number;
 }
 
 type SignInProps = {
-    email: string;
-    senha: string;
+    username: string;
+    password: string;
 }
 
 type SignUpProps = {
-    email: string;
-    senha: string;
+    username: string;
+    password: string;
     nivel: number;
 }
 
@@ -56,15 +55,15 @@ export function AuthProvider({ children }: AuthProviderProps){
         // tentar pegar algo no cookie
         const { '@nextauth.token': token } = parseCookies();
 
-        console.log(token)
+        //console.log(token)
     
-        if(token){
+/*         if(token){
           api.get('/me').then(response => {
-            const { id, email } = response.data;
+            const { nivel_usu, username } = response.data;
     
             setUsuario({
-              id,
-              email
+                nivel_usu,
+                username
               
             })
     
@@ -73,25 +72,28 @@ export function AuthProvider({ children }: AuthProviderProps){
             //Se deu erro deslogamos o user.
             //signOut();
           })
-        }
+        } */
     
     
       }, [])
 
-    async function signIn({ email, senha }: SignInProps){
+    async function signIn({ username, password }: SignInProps){
 
-        //console.log('login => ' + email)
-        //console.log('senha => ' + senha)
+        //console.log('login => ' + username)
+        //console.log('senha => ' + password)
 
         try{
-            const response =  await api.post('/login',{
-                email,
-                senha
+            const response =  await api.post('/auth/singin',{
+                username,
+                password
             })
 
-            //console.log(response.data);
+            console.log(response.data);
 
-            const {id, nivel ,token} = response.data;
+            const {nivel_usu, token} = response.data[0];
+
+            console.log(token)
+            console.log(nivel_usu)
 
 
             setCookie(undefined,'@nextauth.token', token,{
@@ -100,9 +102,8 @@ export function AuthProvider({ children }: AuthProviderProps){
             })
 
             setUsuario({
-                id,
-                email,
-                nivel
+                username,
+                nivel_usu
             })
 
             // Passar para as proximas requisições o token
@@ -120,14 +121,14 @@ export function AuthProvider({ children }: AuthProviderProps){
         }
     }
 
-    async function signUp({ email, senha, nivel }: SignUpProps) {
+    async function signUp({ username, password, nivel }: SignUpProps) {
                 //console.log('login => ' + username)
         //console.log('senha => ' + password)
 
         try{
             const response =  await api.post('/signup',{
-                email,
-                senha,
+                username,
+                password,
                 nivel
             })
 

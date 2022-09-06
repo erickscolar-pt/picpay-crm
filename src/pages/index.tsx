@@ -13,15 +13,15 @@ import { canSSRGuest } from "../utils/canSSRGuest";
 export default function Home() {
   const { signIn } = useContext(AuthContext)
 
-  const [email, setEmail] = useState('')
-  const [senha, setSenha] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
   const [loading, setLoading] = useState(false)
 
   async function handleLogin(event: FormEvent) {
     event.preventDefault();
 
-    if(email === '' || senha === ''){
+    if(username === '' || password === ''){
       toast.warning("Preencha todos os campos!")
       return;
     }
@@ -29,8 +29,8 @@ export default function Home() {
     setLoading(true)
 
     let data = {
-      email,
-      senha
+      username,
+      password
     }
 
     await signIn(data)
@@ -60,16 +60,16 @@ export default function Home() {
             <span>E-mail</span>
             <input 
             type="text" 
-            placeholder='email@dominio.com.br'
-            value={email}
-            onChange={ (e)=> setEmail(e.target.value)}/>
+            placeholder='Digite seu nome de usuario'
+            value={username}
+            onChange={ (e)=> setUsername(e.target.value)}/>
 
             <span>Senha</span>
             <input 
             type="password" 
             placeholder='**********'
-            value={senha} 
-            onChange={ (e)=> setSenha(e.target.value)}/>
+            value={password} 
+            onChange={ (e)=> setPassword(e.target.value)}/>
 
             <ButtonEntrar
             type="submit"

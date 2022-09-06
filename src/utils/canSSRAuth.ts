@@ -8,6 +8,7 @@ export function canSSRAuth<P>(fn: GetServerSideProps<P>){
   return async (ctx: GetServerSidePropsContext): Promise<GetServerSidePropsResult<P>> => {
     const cookies = parseCookies(ctx);    
 
+    
     const token = cookies['@nextauth.token'];
 
     if(!token){

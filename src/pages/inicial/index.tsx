@@ -4,25 +4,39 @@ import Head from "next/head";
 import Header from '../../components/Header'
 import Footer from "../../components/Footer";
 import Link from "next/link";
+import { FaSearch } from "react-icons/fa";
+import { useRouter } from "next/router";
 
 export default function Inicial(){
+
+
+    
+
+
+
     return(
         <>
+        <Head>
+            <title>PicPay - Inicial</title>
+        </Head>
         <div className={styles.bg}>
-            <Head>
-                Inicial
-            </Head>
 
             <Header/>
             
             <div className={styles.atendimentos}>
-                <div className={styles.search}>
+                <form className={styles.search}>
                     <input type="text" placeholder="Insira o CPF para realizar a busca"/>
-                </div>
+                    <button type="submit">
+                        <FaSearch
+                            color="#fff"
+                            size={14}
+                        />
+                    </button>
+                </form>
 
                 <div className={styles.btnatendimento}>
-                    <button type="button">Atendimento - Vencido</button>
-                    <button type="button">Atendimento - A Vencer</button>
+                    <Link href="/vencidonegociacao"><button type="button">Atendimento - Vencido</button></Link>
+                    <Link href="/avencernegociacao"><button type="button">Atendimento - A Vencer</button></Link>
                 </div>
             </div>
 
