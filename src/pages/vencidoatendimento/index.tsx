@@ -88,7 +88,7 @@ export default function VencidoAtendimento({ listamotivo }: ListaMotivo){
 
                     </select>
 
-                    <textarea name="tabulacao" placeholder="Descreva o motivo ..." minLength={20}  maxLength={255}>
+                    <textarea className={styles.textarea} name="tabulacao" placeholder="Descreva o motivo ..." minLength={20}  maxLength={255}>
 
                     </textarea>
                 </div>
