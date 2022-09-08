@@ -13,8 +13,10 @@ type AuthContextData = {
 }
 
 type UsuarioProps ={
-    username: string;
+    idusu_usu: number;
+    username?: string;
     nivel_usu?: number;
+    token?: string;
 }
 
 type SignInProps = {
@@ -37,6 +39,8 @@ export const AuthContext = createContext({} as AuthContextData)
 export function signOut(){
     try{
         destroyCookie(undefined, '@nextauth.token')
+        sessionStorage.removeItem('id')
+        sessionStorage.removeItem('nivel')
         Router.push('/')
     }catch{
         console.log('erro ao deslogar')
@@ -57,22 +61,23 @@ export function AuthProvider({ children }: AuthProviderProps){
 
         //console.log(token)
     
-/*         if(token){
-          api.get('/me').then(response => {
-            const { nivel_usu, username } = response.data;
+        if(token){
+          api.put('/auth/refreshtoken').then(response => {
+            const { idusu_usu, nivel_usu, token } = response.data;
     
+            //console.log('**************** dados: ' + idusu_usu)
             setUsuario({
+                idusu_usu,
                 nivel_usu,
-                username
-              
+                token
             })
     
           })
           .catch(() => {
             //Se deu erro deslogamos o user.
-            //signOut();
+            signOut();
           })
-        } */
+        }
     
     
       }, [])
@@ -83,17 +88,25 @@ export function AuthProvider({ children }: AuthProviderProps){
         //console.log('senha => ' + password)
 
         try{
-            const response =  await api.post('/auth/singin',{
+            const response =  await api.post('/auth/signin',{
                 username,
                 password
             })
 
-            console.log(response.data);
+            //console.log(response.data);
 
-            const {nivel_usu, token} = response.data[0];
+            const {idusu_usu,nivel_usu, token} = response.data[0];
 
-            console.log(token)
-            console.log(nivel_usu)
+            //console.log(token)
+            //console.log(nivel_usu)
+
+
+                if (window) { 
+                  // set props data to session storage or local storage 
+                  sessionStorage.setItem('id',idusu_usu)
+                  sessionStorage.setItem('nivel',nivel_usu) 
+                }
+
 
 
             setCookie(undefined,'@nextauth.token', token,{
@@ -102,6 +115,7 @@ export function AuthProvider({ children }: AuthProviderProps){
             })
 
             setUsuario({
+                idusu_usu,
                 username,
                 nivel_usu
             })

@@ -90,6 +90,7 @@
         width: 100%;
         background: #248A7E;
         border: none;
+        color: #fff;
         border-bottom: 1px solid #FFFFFF;
         margin: 0.5em;
     }
@@ -168,5 +169,12 @@
     }
     .bginative{
         background: #248A7E;
+    }
+}
+
+@media screen and (max-width: 1400px){
+    .form{
+        margin: 2em;
+
     }
 }

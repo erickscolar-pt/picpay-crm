@@ -18,6 +18,9 @@ export default function VencidoNegociacao(){
   idmtv_atnd: number;
   idusu_atnd: number;
 */
+
+    const id = parseInt(sessionStorage.getItem('id'))
+
     const [nome, setNome] = useState('');
     const [cpf, setCpf] = useState('');
     const [telefone, setTelefone] = useState('');
@@ -29,6 +32,8 @@ export default function VencidoNegociacao(){
     const [origemAtendimento, setOrigemAtendimento] = useState('');
     const [idMotivo, setIdMotivo] = useState('');
     const [idUsuario, setIdUsuario] = useState('');
+
+
 
     async function handleRegistroVencidoNegociacao(event:FormEvent) {
         event.preventDefault();
@@ -43,6 +48,7 @@ export default function VencidoNegociacao(){
             valorDemais === ''
         ){
             toast.warning("Insira todos os campos para prosseguir")
+            return;
         }
 
         const apiClient = setupAPIClient();
@@ -56,14 +62,23 @@ export default function VencidoNegociacao(){
             vldem_atnd: valorDemais,
             tabul_atnd: "",
             origem_atend:1,
-            idmtv_atnd:1,
-            idusu_atnd:1
+            idmtv_atnd:8,
+            idusu_atnd:id
         }).catch((err)=>{
             console.log(err)
             toast.error("Erro ao enviar formulario.")
+            return;
         })
 
         toast.success("Formulario enviado com sucesso!")
+
+        setNome('')
+        setCpf('')
+        setTelefone('')
+        setPlano(0)
+        setDataVencimento('')
+        setValorEntrada('')
+        setValorDemais('')
     }
 
     const router = useRouter()
