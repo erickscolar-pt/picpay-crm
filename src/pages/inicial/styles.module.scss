@@ -9,7 +9,6 @@
     align-content: center;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
 }
 
 .table{
@@ -76,6 +75,11 @@
         border-radius: 19px;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
+        transition: all 0.3s;
+        &:hover{
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            animation-fill-mode: backwards;
+            background: #248A7E;        }
     }
 }
 
@@ -110,6 +114,11 @@
         letter-spacing: -0.015em;
 
         color: #FFFFFF;
+        transition: all 0.3s;
+        &:hover{
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            animation-fill-mode: backwards;
+            background: #1e746a;        }
     }
 }
 

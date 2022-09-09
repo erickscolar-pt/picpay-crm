@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { setupAPIClient } from "../../services/api";
 import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import InputMask from 'react-input-mask'
 
 type ItemProps = {
     idmtv_mtv: number,
@@ -20,6 +21,7 @@ interface ListaMotivo{
     listamotivo: ItemProps[]
 }
 export default function AVencerNegociacao({ listamotivo }: ListaMotivo){
+    
     const [idUser, setIdUser] = useState(0)  
     const [nome, setNome] = useState('');
     const [cpf, setCpf] = useState('');
@@ -49,8 +51,8 @@ export default function AVencerNegociacao({ listamotivo }: ListaMotivo){
     
     function selectMotivo(event){
 
-        //console.log("posição", event.target.value)
-        //console.log("selecionado", listMotivo[event.target.value])
+        ////console.log("posição", event.target.value)
+        ////console.log("selecionado", listMotivo[event.target.value])
 
         setMotivoSelect(event.target.value)
 
@@ -84,7 +86,7 @@ export default function AVencerNegociacao({ listamotivo }: ListaMotivo){
             idmtv_atnd: listamotivo[motivoSelect].idmtv_mtv,
             idusu_atnd: id
         }).catch((err)=>{
-            //console.log(err)
+            ////console.log(err)
             toast.error("Erro ao enviar formulario.")
         })
 
@@ -97,6 +99,8 @@ export default function AVencerNegociacao({ listamotivo }: ListaMotivo){
         setDataVencimento('')
         setValorEntrada('')
         setValorDemais('')
+
+        router.push('/inicial')
     }
 
 
@@ -121,7 +125,7 @@ export default function AVencerNegociacao({ listamotivo }: ListaMotivo){
                 value={cpf}
                 onChange={(e) => setCpf(e.target.value)}
                 />
-                <input type="text" name="telefone" id="" placeholder="Telefone"
+                <input  type="text" name="telefone" id="" placeholder="Telefone"
                 value={telefone}
                 onChange={(e) => setTelefone(e.target.value)}
                 />
@@ -133,7 +137,7 @@ export default function AVencerNegociacao({ listamotivo }: ListaMotivo){
                         <option value="">Selecione uma Tabulação</option>
                         {listamotivo.map((motivos, index)=>{
                             return(
-                                motivos.idmtv_mtv === 8 ? <></> :
+                                motivos.idmtv_mtv === 999999 ? <></> :
                                 <option value={index} key={motivos.idmtv_mtv}>{motivos.nome_mtv}</option>
                                                             )
                         })}
@@ -163,13 +167,13 @@ export default function AVencerNegociacao({ listamotivo }: ListaMotivo){
 
 export const getServerSideProps = canSSRAuth(async (ctx)=>{
 
-    //console.log(ctx)
+    ////console.log(ctx)
     const apiClient = setupAPIClient(ctx)
 
     const response = await apiClient.get('/motivo')
 
 
-    //console.log(response.data)
+    ////console.log(response.data)
 
     return{
         props:{

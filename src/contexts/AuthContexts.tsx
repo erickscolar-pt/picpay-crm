@@ -43,7 +43,7 @@ export function signOut(){
         sessionStorage.removeItem('nivel')
         Router.push('/')
     }catch{
-        console.log('erro ao deslogar')
+        //console.log('erro ao deslogar')
     }
 }
 
@@ -59,13 +59,13 @@ export function AuthProvider({ children }: AuthProviderProps){
         // tentar pegar algo no cookie
         const { '@nextauth.token': token } = parseCookies();
 
-        //console.log(token)
+        ////console.log(token)
     
-        if(token){
+/*         if(token){
           api.put('/auth/refreshtoken').then(response => {
             const { idusu_usu, nivel_usu, token } = response.data;
     
-            //console.log('**************** dados: ' + idusu_usu)
+            ////console.log('**************** dados: ' + idusu_usu)
             setUsuario({
                 idusu_usu,
                 nivel_usu,
@@ -77,15 +77,15 @@ export function AuthProvider({ children }: AuthProviderProps){
             //Se deu erro deslogamos o user.
             signOut();
           })
-        }
+        } */
     
     
       }, [])
 
     async function signIn({ username, password }: SignInProps){
 
-        //console.log('login => ' + username)
-        //console.log('senha => ' + password)
+        ////console.log('login => ' + username)
+        ////console.log('senha => ' + password)
 
         try{
             const response =  await api.post('/auth/signin',{
@@ -93,12 +93,12 @@ export function AuthProvider({ children }: AuthProviderProps){
                 password
             })
 
-            //console.log(response.data);
+            ////console.log(response.data);
 
             const {idusu_usu,nivel_usu, token} = response.data[0];
 
-            //console.log(token)
-            //console.log(nivel_usu)
+            ////console.log(token)
+            ////console.log(nivel_usu)
 
 
                 if (window) { 
@@ -131,13 +131,13 @@ export function AuthProvider({ children }: AuthProviderProps){
 
         }catch(err){
             toast.error("Erro ao acessar.")
-            console.log('Erro ao acessar => ' + err)
+            //console.log('Erro ao acessar => ' + err)
         }
     }
 
     async function signUp({ username, password, nivel }: SignUpProps) {
-                //console.log('login => ' + username)
-        //console.log('senha => ' + password)
+                ////console.log('login => ' + username)
+        ////console.log('senha => ' + password)
 
         try{
             const response =  await api.post('/signup',{
@@ -153,7 +153,7 @@ export function AuthProvider({ children }: AuthProviderProps){
 
         }catch(err){
             toast.error("Erro ao cadastrar usuario.")
-            console.log('Erro ao cadastrar => ' + err)
+            //console.log('Erro ao cadastrar => ' + err)
         }
     }
 

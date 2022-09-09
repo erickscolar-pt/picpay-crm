@@ -30,7 +30,7 @@ export default function Header(){
     if(param == '/avencernegociacao'){
         backpage = "/inicial"
     }
-    //console.log(ocultabtn) 
+    ////console.log(ocultabtn) 
 
     const { signOut } = useContext(AuthContext)
 

@@ -18,18 +18,33 @@ export function ModalCriaUsuario({ isOpen,onRequestClose }:ModalProps){
     const [selectNivel, setSelectNivel] = useState(0)
 
     function nivelSelecionado(event){
-        //console.log(event.target.value)
+        ////console.log(event.target.value)
         //setNivel(event.tarde.value)
+
+
+
         setSelectNivel(event.target.value)
     }
+
+
     
     async function handleRegistro(event:FormEvent) {
         //setNivel(selectNivel)
         event.preventDefault();
+        let nivel: number = 0
+        if(selectNivel == 1 ){
+            nivel = 1
+        }
+    
+        if(selectNivel == 2 ){
+            nivel = 2
+        }
 
-/*         console.log(username)
-        console.log(password)
-        console.log(selectNivel) */
+        //console.log(selectNivel)
+
+/*         //console.log(username)
+        //console.log(password)
+        //console.log(selectNivel) */
 
         if(username === '' || password === '' || selectNivel == 0){
             toast.warn("Insira todos os campos para prosseguir")
@@ -40,9 +55,9 @@ export function ModalCriaUsuario({ isOpen,onRequestClose }:ModalProps){
         await api.post('/auth/signup',{
             nome: username,
             senha: password,
-            nivel: parseInt(selectNivel)
+            nivel: nivel
         }).catch((err)=>{
-            console.log(err)
+            //console.log(err)
             toast.error("Não foi possivel criar usuario, tente novamente mais tarde.")
             return;
         })

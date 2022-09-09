@@ -40,13 +40,14 @@ export default function Inicial(){
     const [documento, setDocumento] = useState('')
     const [activeTable, setActiveTable] = useState(false)
     const [listAtendimento, setListAtendimento] = useState<ListaAtendimento>()
+    const [listaMotivo, setListaMotivo] = useState([])
     const [nivelid, setNivelId] = useState(0)
     const [modalVisible, setModalVisible] = useState(false)
 
     let active = activeTable;
     
     function aTable(e: boolean){
-        //console.log(e)
+        ////console.log(e)
         setActiveTable(e)
     }
 
@@ -74,7 +75,12 @@ export default function Inicial(){
             const response:any = await api.post('/atendimento/findDocumento',{
                 documento
             } );
-            //console.log(response.data[0].status)
+            //const con = {}
+            const res = await api.get('/motivo')
+            
+            const motivos = res.data
+            setListaMotivo(motivos)
+            //console.log(response.data[0].novo)
 
             if(response.data[0].status === false){
                 aTable(false)
@@ -141,6 +147,7 @@ export default function Inicial(){
                                                 <th>Data</th>
                                                 <th>Tipo</th>
                                                 <th>Ocorrencia</th>
+                                                <th>Detalhes</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -148,12 +155,29 @@ export default function Inicial(){
                                                 return(
                                                         <tr key={lista.idatnd_atnd}>
                                                             <td>{lista.idatnd_atnd}</td>
-                                                            <td>{lista.dtcad_atnd == null ? 'Sem data' : lista.dtcad_atnd}</td>
+                                                            <td>{lista.dtcad_atnd == null ? 'Sem data' : new Date(lista.dtcad_atnd).toLocaleDateString()}</td>
                                                             <td>{lista.origem_atend === 1 ? 'Acordo' :
                                                                  lista.origem_atend === 2 ? 'Atendimento Vencido' :
                                                                  lista.origem_atend === 3 ? 'Atendimento A Vencer' :
                                                                  'Sem atendimento'}</td>
-                                                            <td>{lista.tabul_atnd}</td>
+                                                            <td>
+                                                            {listaMotivo?.map((motivo,index)=>{
+                                                                return(
+                                                                    //lista.idmtv_atnd
+                                                                    <>{lista.idmtv_atnd == motivo.idmtv_mtv?
+                                                                    motivo.nome_mtv :
+                                                                    <></>
+                                                                    }</>
+                                                                )
+                                                            })}
+                                                            </td>
+                                                            <td>{lista.idmtv_atnd === 999999 ? 
+                                                            'Plano: ' + lista.plano_atnd +
+                                                            ', Valor entrada: ' + lista.vlent_atnd +
+                                                            ', Valor demais: ' + lista.vldem_atnd +
+                                                            ', Data vencimento: ' + new Date(lista.dtvcn_atnd).toLocaleDateString()
+                                                            : 
+                                                            lista.tabul_atnd}</td>
                                                         </tr>
                                                 )
                                             })}
@@ -171,7 +195,6 @@ export default function Inicial(){
                     nivel == 1 ?
                     <div className={styles.btnatendimento}>
                         <button type="button" onClick={modal}>Criar Usuario</button>
-                        <Link href="/avencernegociacao"><button type="button">Relatorios</button></Link>
                     </div>
                     : 
                     <div></div>

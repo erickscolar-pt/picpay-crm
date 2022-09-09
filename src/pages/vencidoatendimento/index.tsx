@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { setupAPIClient } from "../../services/api";
 import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import InputMask from 'react-input-mask'
 
 type ItemProps = {
     idmtv_mtv: number,
@@ -55,8 +56,8 @@ export default function VencidoAtendimento({ listamotivo }: ListaMotivo){
 
     function selectMotivo(event){
 
-        //console.log("posição", event.target.value)
-        //console.log("selecionado", listMotivo[event.target.value])
+        ////console.log("posição", event.target.value)
+        ////console.log("selecionado", listMotivo[event.target.value])
 
         setMotivoSelect(event.target.value)
 
@@ -90,7 +91,7 @@ export default function VencidoAtendimento({ listamotivo }: ListaMotivo){
             idmtv_atnd: listamotivo[motivoSelect].idmtv_mtv,
             idusu_atnd: id
         }).catch((err)=>{
-            console.log(err)
+            //console.log(err)
             toast.error("Erro ao enviar formulario.")
         })
 
@@ -104,6 +105,8 @@ export default function VencidoAtendimento({ listamotivo }: ListaMotivo){
         setValorEntrada('')
         setValorDemais('')
         setTabulacao('')
+
+        router.push('/inicial')
     }
 
     return(
@@ -131,16 +134,15 @@ export default function VencidoAtendimento({ listamotivo }: ListaMotivo){
 
             <form className={styles.form} onSubmit={handleRegistroVencidoNegociacao}>
                 <h1>Vencido</h1>
-
-                <input className={styles.inputname} type="text" name="nome" id="" placeholder="Nome"
+                <input  className={styles.inputname} type="text" name="nome" id="" placeholder="Nome"
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
                 />
-                <input type="text" name="cpf" id="" placeholder="CPF"
+                <input  type="text" name="cpf" id="" placeholder="CPF ou CNPJ"
                 value={cpf}
                 onChange={(e) => setCpf(e.target.value)}
                 />
-                <input type="text" name="telefone" id="" placeholder="Telefone"
+                <input  type="text" name="telefone" id="" placeholder="Telefone"
                 value={telefone}
                 onChange={(e) => setTelefone(e.target.value)}
                 />
@@ -184,13 +186,13 @@ export default function VencidoAtendimento({ listamotivo }: ListaMotivo){
 
 export const getServerSideProps = canSSRAuth(async (ctx)=>{
 
-        //console.log(ctx)
+        ////console.log(ctx)
         const apiClient = setupAPIClient(ctx)
     
         const response = await apiClient.get('/motivo')
     
 
-        //console.log(response.data)
+        ////console.log(response.data)
     
         return{
             props:{

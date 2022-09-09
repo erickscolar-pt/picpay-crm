@@ -6,9 +6,10 @@ import Footer from "../../components/Footer";
 import Link from "next/link";
 import { FaSearch } from "react-icons/fa";
 import { useRouter } from "next/router";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { setupAPIClient } from "../../services/api";
+import InputMask from 'react-input-mask'
 
 export default function VencidoNegociacao(){
 /* 
@@ -19,8 +20,7 @@ export default function VencidoNegociacao(){
   idusu_atnd: number;
 */
 
-    const id = parseInt(sessionStorage.getItem('id'))
-
+    const [idUser, setIdUser] = useState(0)  
     const [nome, setNome] = useState('');
     const [cpf, setCpf] = useState('');
     const [telefone, setTelefone] = useState('');
@@ -32,6 +32,14 @@ export default function VencidoNegociacao(){
     const [origemAtendimento, setOrigemAtendimento] = useState('');
     const [idMotivo, setIdMotivo] = useState('');
     const [idUsuario, setIdUsuario] = useState('');
+
+    useEffect(() => {
+        if (window) { 
+          // set props data to session storage or local storage  
+          setIdUser(parseInt(sessionStorage.getItem('id')))
+        }
+    }, []);
+    const id = idUser
 
 
 
@@ -62,10 +70,10 @@ export default function VencidoNegociacao(){
             vldem_atnd: valorDemais,
             tabul_atnd: "",
             origem_atend:1,
-            idmtv_atnd:8,
+            idmtv_atnd:999999,
             idusu_atnd:id
         }).catch((err)=>{
-            console.log(err)
+            //console.log(err)
             toast.error("Erro ao enviar formulario.")
             return;
         })
@@ -79,6 +87,7 @@ export default function VencidoNegociacao(){
         setDataVencimento('')
         setValorEntrada('')
         setValorDemais('')
+        router.push('/inicial')
     }
 
     const router = useRouter()
@@ -117,15 +126,15 @@ export default function VencidoNegociacao(){
             <form className={styles.form} onSubmit={handleRegistroVencidoNegociacao}>
                 <h1>Vencido</h1>
 
-                <input className={styles.inputname} type="text" name="nome" id="" placeholder="Nome"
+                <input  className={styles.inputname} type="text" name="nome" id="" placeholder="Nome"
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
                 />
-                <input type="text" name="cpf" id="" placeholder="CPF"
+                <input  type="text" name="cpf" id="" placeholder="CPF ou CNPJ"
                 value={cpf}
                 onChange={(e) => setCpf(e.target.value)}
                 />
-                <input type="text" name="telefone" id="" placeholder="Telefone"
+                <input  type="text" name="telefone" id="" placeholder="Telefone"
                 value={telefone}
                 onChange={(e) => setTelefone(e.target.value)}
                 />
@@ -134,6 +143,7 @@ export default function VencidoNegociacao(){
                 <div className={styles.inputsacordo}>
                     <h1>Acordo</h1>
                     <input className={styles.radius1} type="number" placeholder="Plano"
+                    min={0}
                     value={plano}
                     onChange={(e) => setPlano(e.target.valueAsNumber)}
                     />
@@ -142,10 +152,12 @@ export default function VencidoNegociacao(){
                     onChange={(e) => setDataVencimento(e.target.value)}
                     />
                     <input type="number" placeholder="Valor Ent."
+                    min={0}
                     value={valorEntrada}
                     onChange={(e) => setValorEntrada(e.target.value)}
                     />
                     <input className={styles.radius2} type="number" placeholder="Valor De."
+                    min={0}
                     value={valorDemais}
                     onChange={(e) => setValorDemais(e.target.value)}
                     />
@@ -165,4 +177,5 @@ export const getServerSideProps = canSSRAuth(async (ctx)=>{
     return{
         props:{}
     }
+
 })
